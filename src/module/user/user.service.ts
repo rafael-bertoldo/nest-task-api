@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { hash } from 'bcrypt';
 import { PrismaService } from 'src/database/prisma.service';
 import { UserDTO } from './user.dto';
@@ -15,7 +15,7 @@ export class UserService {
     });
 
     if (checkEmail) {
-      throw new Error('Email already exists');
+      throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
     }
 
     const hashPass = await hash(data.password, 10);
