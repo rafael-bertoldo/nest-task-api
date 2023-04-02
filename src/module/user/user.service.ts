@@ -5,7 +5,7 @@ import { UserDTO } from './user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async create(data: UserDTO) {
     const checkEmail = await this.prisma.user.findUnique({
@@ -31,5 +31,24 @@ export class UserService {
     const { password, ...rest } = newUser;
 
     return rest;
+  }
+
+  async getProfile(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id
+      },
+      include: {
+        tasks: true,
+      },
+    })
+
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const { password, ...rest } = user
+
+    return rest
   }
 }
