@@ -29,4 +29,37 @@ export class TaskService {
       }
     })
   }
+
+  async getAll(id: string) {
+    return await this.prisma.task.findMany({
+      where: {
+        user_id: id
+      },
+      orderBy: {
+        created_at: 'asc'
+      }
+    })
+  }
+
+  async getByDueDate(id: string) {
+    return await this.prisma.task.findMany({
+      where: {
+        user_id: id
+      },
+      orderBy: {
+        due_date: 'asc'
+      }
+    })
+  }
+
+  async getByPriority(id: string) {
+    return await this.prisma.task.findMany({
+      where: {
+        user_id: id
+      },
+      orderBy: {
+        priority: 'desc'
+      }
+    })
+  }
 }

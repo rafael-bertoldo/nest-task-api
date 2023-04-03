@@ -14,6 +14,16 @@ export class TaskController {
 
   @Get()
   readAll(@CurrentUser() user: UserDTO) {
-    return new Date()
+    return this.taskService.getAll(user.id)
+  }
+
+  @Get('due_date')
+  readAllByDueDate(@CurrentUser() user: UserDTO) {
+    return this.taskService.getByDueDate(user.id)
+  }
+  
+  @Get('priority')
+  readAllByPriority(@CurrentUser() user: UserDTO) {
+    return this.taskService.getByPriority(user.id)
   }
 }
