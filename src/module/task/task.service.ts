@@ -62,4 +62,51 @@ export class TaskService {
       }
     })
   }
+
+  async updateTask(id: string, data: TaskDTO, userId: string) {
+    const checkTask = await this.prisma.task.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if (!checkTask) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND)
+    }
+
+    if(checkTask.user_id !== userId) {
+      throw new HttpException('Only the creator of task can update', HttpStatus.UNAUTHORIZED)
+    }
+
+    const updatedTask = await this.prisma.task.update({
+      where: {
+        id
+      },
+       data
+    })
+
+    return updatedTask
+  }
+
+  async deleteById(id: string, userId: string) {
+    const checkTask = await this.prisma.task.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if (!checkTask) {
+      throw new HttpException('Task not found', HttpStatus.NOT_FOUND)
+    }
+
+    if(checkTask.user_id !== userId) {
+      throw new HttpException('Only the creator of task can delete', HttpStatus.UNAUTHORIZED)
+    }
+
+    return await this.prisma.task.delete({
+      where: {
+        id
+      }
+    })
+  }
 }
