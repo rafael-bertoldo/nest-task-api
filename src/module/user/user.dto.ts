@@ -1,6 +1,6 @@
 import { TaskDTO } from "../task/task.dto";
 
-export type UserDTO = {
+export class UserDTO {
   id?: string;
   username: string;
   password: string;

@@ -1,4 +1,4 @@
-export type TaskDTO = {
+export class TaskDTO {
   id?: string;
   title: string;
   description?: string;

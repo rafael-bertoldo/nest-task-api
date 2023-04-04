@@ -2,11 +2,14 @@ import { Controller, Get, Post, Patch, Delete, Body, Param } from '@nestjs/commo
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserDTO } from '../user/user.dto';
 import { TaskDTO } from './task.dto';
+import { ApiTags } from '@nestjs/swagger';
 import { TaskService } from './task.service';
 
+@ApiTags('Tasks')
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) { }
+
   @Post()
   create(@Body() data: TaskDTO, @CurrentUser() user: UserDTO) {
     return this.taskService.create(data, user.id)
