@@ -10,12 +10,14 @@ import { AuthService } from './auth.service';
 // import { AuthDTO } from './auth.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthRequest } from './models/authRequest';
-import { isPublic } from './decorators/is-public.decorator';
+import { isPublic } from './decorators/is-public.decorator';import { ApiTags } from '@nestjs/swagger';
+
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiTags('Auth')
   @isPublic()
   @Post('login')
   @HttpCode(HttpStatus.OK)
